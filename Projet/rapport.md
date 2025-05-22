@@ -15,36 +15,36 @@ Le modèle a été évalué sur un jeu de test indépendant, avec génération d
 
 Les données proviennent de Rotten Tomatoes, un site d’accès libre.
 
-- J’ai d’abord utilisé `scraper.py` pour récupérer la liste des **20 films les plus populaires de 2025**.
-- Ensuite, `scrapper_review.py` a permis de récupérer pour chaque film les **10 premières critiques**.  
+- J’ai d’abord utilisé [scraper.py](https://github.com/xiaotong-0913/OutilsTraitementCorpus/blob/main/Projet/src/scraper.py) pour récupérer la liste des **20 films les plus populaires de 2025**.
+- Ensuite, [scrapper_review.py](https://github.com/xiaotong-0913/OutilsTraitementCorpus/blob/main/Projet/src/scapper_review.py) a permis de récupérer pour chaque film les **10 premières critiques**.  
   J’ai conservé les colonnes suivantes :
   - `movie`, `url`, `reviewer`, `score`, `review`
   - Les critiques sans score ont été supprimées.
   - Les scores ont été convertis en **décimales** (par exemple : `2/5 → 0.40`)  
-  → Résultat : `./raw/filtered_reviews.csv`
+  → Résultat : [./raw/filtered_reviews.csv](https://github.com/xiaotong-0913/OutilsTraitementCorpus/blob/main/Projet/data/raw/filtered_reviews.csv)
 
-- Pour nettoyer et analyser les textes extraits, j’ai utilisé le script `clean_visual.py`, qui assure à la fois le **nettoyage du corpus** (suppression des caractères inutiles, lemmatisation) et la **visualisation de certaines statistiques** textuelles.
+- Pour nettoyer et analyser les textes extraits, j’ai utilisé le script [clean_visual.py](https://github.com/xiaotong-0913/OutilsTraitementCorpus/blob/main/Projet/src/clean_visual.py), qui assure à la fois le **nettoyage du corpus** (suppression des caractères inutiles, lemmatisation) et la **visualisation de certaines statistiques** textuelles.
 
-   → Le résultat de nettoyage a été sauvegardé dans le fichier `filtered_reviews_cleaned.csv`.
+   → Le résultat de nettoyage a été sauvegardé dans le fichier [filtered_reviews_cleaned.csv](https://github.com/xiaotong-0913/OutilsTraitementCorpus/blob/main/Projet/data/clean/filtered_reviews_cleaned.csv).
 
 
-   Deux graphiques ont été générés automatiquement dans le dossier `../figures/`, permettent de mieux comprendre la structure et la nature des données avant le fine-tuning du modèle:
+   Deux graphiques ont été générés automatiquement dans le dossier [figures](https://github.com/xiaotong-0913/OutilsTraitementCorpus/tree/main/Projet/figures), permettent de mieux comprendre la structure et la nature des données avant le fine-tuning du modèle:
 - `longueur_textes.png` : distribution des longueurs des critiques
 - `zipf_mots_fréquents.png` : loi de Zipf illustrant les 20 mots les plus fréquents dans le corpus
 
 
 
 
-- J’ai ensuite utilisé `label.py` pour **ajouter un label de sentiment** :
+- J’ai ensuite utilisé [label.py](https://github.com/xiaotong-0913/OutilsTraitementCorpus/blob/main/Projet/src/label.py) pour **ajouter un label de sentiment** :
     > Les critiques sont étiquetées en fonction de leur score (négatif / positif).  
     > Un score ≤ 0,5 est considéré comme négatif, et un score > 0,5 comme positif.
 
-  → Résultat : `labeled_reviews.csv`
+  → Résultat : [labeled_reviews.csv](https://github.com/xiaotong-0913/OutilsTraitementCorpus/blob/main/Projet/data/clean/labeled_reviews.csv)
 
-- Pour enrichir le corpus, j’ai utilisé `paraphrase_reviews.py` avec le modèle `Vamsi/T5_Paraphrase_Paws` pour créer une **version paraphrasée** de chaque critique.  
-  → Résultat : `paraphrased_reviews.csv`
+- Pour enrichir le corpus, j’ai utilisé [paraphrase_reviews.py](https://github.com/xiaotong-0913/OutilsTraitementCorpus/blob/main/Projet/src/paraphrase_reviews.py) avec le modèle `Vamsi/T5_Paraphrase_Paws` pour créer une **version paraphrasée** de chaque critique.  
+  → Résultat : [paraphrased_reviews.csv](https://github.com/xiaotong-0913/OutilsTraitementCorpus/blob/main/Projet/data/clean/paraphrased_reviews.csv)
 
-- Enfin, le fichier `split.py` a divisé les données en trois parties :
+- Enfin, le fichier [split.py](https://github.com/xiaotong-0913/OutilsTraitementCorpus/blob/main/Projet/src/split.py) a divisé les données en trois parties :
   - `train.csv` (80 %)
   - `dev.csv` (10 %)
   - `test.csv` (10 %)
@@ -53,7 +53,7 @@ Les données proviennent de Rotten Tomatoes, un site d’accès libre.
 
 ## Modèle pré-entraîné choisi
 
-J’ai choisi le modèle **DistilBERT** (`distilbert-base-uncased`) pour les raisons suivantes (`train_bert.py`) :
+J’ai choisi le modèle **DistilBERT** (`distilbert-base-uncased`) pour les raisons suivantes ([train_bert.py](https://github.com/xiaotong-0913/OutilsTraitementCorpus/blob/main/Projet/src/train_bert.py)) :
 - Plus léger et plus rapide que BERT
 - Bonnes performances pour les tâches de classification de texte
 - Compatible avec la bibliothèque Hugging Face `transformers`
@@ -76,7 +76,7 @@ Voici les étapes principales :
 
 L’évaluation a été réalisée :
 - À chaque époque sur le jeu de validation (`evaluation_strategy="epoch"`)
-- À la fin de l’entraînement sur le jeu de test, avec :
+- À la fin de l’entraînement sur le jeu de test est sauvegardé dans le dossier [results](https://github.com/xiaotong-0913/OutilsTraitementCorpus/tree/main/Projet/results) :
   - Rapport de classification (`distilbert_results.txt`)
   - Matrice de confusion visualisée (`confusion_matrix.png`)
 
