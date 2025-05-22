@@ -23,6 +23,18 @@ Les données proviennent de Rotten Tomatoes, un site d’accès libre.
   - Les scores ont été convertis en **décimales** (par exemple : `2/5 → 0.40`)  
   → Résultat : `./raw/filtered_reviews.csv`
 
+- Pour nettoyer et analyser les textes extraits, j’ai utilisé le script `clean_visual.py`, qui assure à la fois le **nettoyage du corpus** (suppression des caractères inutiles, lemmatisation) et la **visualisation de certaines statistiques** textuelles.
+
+   → Le résultat de nettoyage a été sauvegardé dans le fichier `filtered_reviews_cleaned.csv`.
+
+
+   Deux graphiques ont été générés automatiquement dans le dossier `../figures/`, permettent de mieux comprendre la structure et la nature des données avant le fine-tuning du modèle:
+- `longueur_textes.png` : distribution des longueurs des critiques
+- `zipf_mots_fréquents.png` : loi de Zipf illustrant les 20 mots les plus fréquents dans le corpus
+
+
+
+
 - J’ai ensuite utilisé `label.py` pour **ajouter un label de sentiment** :
     > Les critiques sont étiquetées en fonction de leur score (négatif / positif).  
     > Un score ≤ 0,5 est considéré comme négatif, et un score > 0,5 comme positif.
@@ -41,7 +53,7 @@ Les données proviennent de Rotten Tomatoes, un site d’accès libre.
 
 ## Modèle pré-entraîné choisi
 
-J’ai choisi le modèle **DistilBERT** (`distilbert-base-uncased`) pour les raisons suivantes :
+J’ai choisi le modèle **DistilBERT** (`distilbert-base-uncased`) pour les raisons suivantes (`train_bert.py`) :
 - Plus léger et plus rapide que BERT
 - Bonnes performances pour les tâches de classification de texte
 - Compatible avec la bibliothèque Hugging Face `transformers`
